@@ -1,7 +1,11 @@
 from collections.abc import Mapping
 from typing import Any
 
-from ...models.work_items import PaginatedWorkItemActivityResponse, WorkItemActivity
+from ...models.work_items import (
+    PaginatedWorkItemActivityResponse,
+    WorkItemActivity,
+    WorkItemStateDurations,
+)
 from ..base_resource import BaseResource
 
 
@@ -45,3 +49,18 @@ class WorkItemActivities(BaseResource):
             f"{workspace_slug}/projects/{project_id}/work-items/{work_item_id}/activities/{activity_id}"
         )
         return WorkItemActivity.model_validate(response)
+
+    def state_durations(
+        self, workspace_slug: str, project_id: str, work_item_id: str
+    ) -> WorkItemStateDurations:
+        """Cumulative working time spent in each state the work item has left.
+
+        Args:
+            workspace_slug: The workspace slug identifier
+            project_id: UUID of the project
+            work_item_id: UUID of the work item
+        """
+        response = self._get(
+            f"{workspace_slug}/projects/{project_id}/work-items/{work_item_id}/state-durations"
+        )
+        return WorkItemStateDurations.model_validate(response)

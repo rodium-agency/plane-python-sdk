@@ -691,6 +691,41 @@ class PaginatedWorkItemActivityResponse(PaginatedResponse):
     results: list[WorkItemActivity]
 
 
+class StateDurationState(BaseModel):
+    """A state named on a working-time transition."""
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str | None = None
+    name: str | None = None
+
+
+class StateDurationTransition(BaseModel):
+    """One state change and the cumulative working time already spent in the state it left."""
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str
+    created_at: str
+    old_state: StateDurationState
+    new_state: StateDurationState
+    duration_seconds: int
+    label: str
+
+
+class WorkItemStateDurations(BaseModel):
+    """Working-time summary for the states a work item has left."""
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    enabled: bool
+    timezone: str
+    start: str
+    end: str
+    days: list[int]
+    transitions: list[StateDurationTransition]
+
+
 class PaginatedWorkItemCommentResponse(PaginatedResponse):
     """Paginated response for work item comments."""
 

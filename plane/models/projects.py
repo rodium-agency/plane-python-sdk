@@ -56,6 +56,10 @@ class Project(BaseModel):
     cover_image_asset: str | None = None
     estimate: str | None = None
     default_state: str | None = None
+    state_time_tracking: bool | None = None
+    state_time_start: str | None = None
+    state_time_end: str | None = None
+    state_time_days: list[int] | None = None
 
 
 class ProjectLite(BaseModel):
@@ -138,6 +142,10 @@ class UpdateProject(BaseModel):
     is_time_tracking_enabled: bool | None = None
     default_state: str | None = None
     estimate: str | None = None
+    state_time_tracking: bool | None = None
+    state_time_start: str | None = None
+    state_time_end: str | None = None
+    state_time_days: list[int] | None = None
 
 
 class ProjectWorklogSummary(BaseModel):

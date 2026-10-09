@@ -1,5 +1,20 @@
 # Plane Python SDK
 
+## Rodium
+
+This fork of [makeplane/plane-python-sdk](https://github.com/makeplane/plane-python-sdk) adds the project schedule used to count working time spent in each state:
+
+- `state_time_tracking`, `state_time_start`, `state_time_end` and `state_time_days` on `Project` and `UpdateProject`
+- `WorkItemActivities.state_durations`, which reads `GET /workspaces/{slug}/projects/{project_id}/work-items/{work_item_id}/state-durations`
+
+Upstream changes are not applied automatically. To resynchronize:
+
+```bash
+git remote add upstream https://github.com/makeplane/plane-python-sdk.git
+git fetch upstream
+git rebase upstream/main
+```
+
 A comprehensive, type-annotated Python SDK for interacting with the Plane API. This SDK provides a clean, modern interface for all Plane API operations, following Python best practices with full type safety and Pydantic v2 integration.
 
 ## Features
