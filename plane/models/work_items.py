@@ -742,6 +742,63 @@ class PaginatedWorkItemLinkResponse(PaginatedResponse):
     results: list[WorkItemLink]
 
 
+class WorkItemSubscriber(BaseModel):
+    """An active subscription to a work item."""
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str
+    subscriber: UserLite | None = None
+    created_at: str | None = None
+
+
+class PaginatedWorkItemSubscriberResponse(PaginatedResponse):
+    """Paginated response for work item subscribers."""
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    results: list[WorkItemSubscriber]
+
+
+class SubscribedWorkItem(BaseModel):
+    """The work item named on a workspace subscription."""
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str
+    name: str | None = None
+    sequence_id: int | None = None
+    project_id: str | None = None
+
+
+class WorkspaceSubscription(BaseModel):
+    """A work item a user is subscribed to."""
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str
+    subscriber: UserLite | None = None
+    project: str | None = None
+    issue: SubscribedWorkItem
+    created_at: str | None = None
+
+
+class PaginatedWorkspaceSubscriptionResponse(PaginatedResponse):
+    """Paginated response for a user's subscriptions in a workspace."""
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    results: list[WorkspaceSubscription]
+
+
+class SubscriptionBulkDelete(BaseModel):
+    """How many subscriptions a bulk unsubscribe removed."""
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    deleted: int
+
+
 class WorkItemSubGroupCountEntry(BaseModel):
     """Count for a single sub-group inside a sub-grouped count response."""
 

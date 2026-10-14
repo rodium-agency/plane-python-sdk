@@ -16,6 +16,7 @@ from ..api.releases import Releases
 from ..api.roles import Roles
 from ..api.states import States
 from ..api.stickies import Stickies
+from ..api.subscriptions import Subscriptions
 from ..api.teamspaces import Teamspaces
 from ..api.users import Users
 from ..api.v2 import V2Namespace
@@ -68,6 +69,7 @@ class PlaneClient:
         self.projects = Projects(self.config)
         self.epics = Epics(self.config)
         self.work_items = WorkItems(self.config)
+        self.subscriptions = Subscriptions(self.config)
         self.pages = Pages(self.config)
         self.collections = Collections(self.config)
         self.labels = Labels(self.config)

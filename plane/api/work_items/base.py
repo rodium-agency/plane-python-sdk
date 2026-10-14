@@ -30,6 +30,7 @@ from .dependencies import WorkItemDependencies
 from .links import WorkItemLinks
 from .pages import WorkItemPages
 from .relations import WorkItemRelations
+from .subscribers import WorkItemSubscribers
 from .work_logs import WorkLogs
 
 
@@ -86,6 +87,7 @@ class WorkItems(BaseResource):
         self.activities = WorkItemActivities(config)
         self.work_logs = WorkLogs(config)
         self.pages = WorkItemPages(config)
+        self.subscribers = WorkItemSubscribers(config)
 
     def create(self, workspace_slug: str, project_id: str, data: CreateWorkItem) -> WorkItem:
         """Create a new work item.
