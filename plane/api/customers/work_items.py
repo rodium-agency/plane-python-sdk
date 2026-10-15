@@ -8,6 +8,7 @@ from plane.models.customers import (
     CustomerWorkItem,
     LinkCustomerWorkItems,
     LinkCustomerWorkItemsResponse,
+    ManageCustomerWorkItems,
 )
 
 
@@ -47,7 +48,27 @@ class CustomerWorkItems(BaseResource):
             query["search"] = search
 
         response = self._get(
-            f"{workspace_slug}/customers/{customer_id}/issues", params=query or None
+            f"{workspace_slug}/customers/{customer_id}/work-items", params=query or None
+        )
+        return [CustomerWorkItem.model_validate(item) for item in response]
+
+    def manage(
+        self,
+        workspace_slug: str,
+        customer_id: str,
+        data: ManageCustomerWorkItems,
+    ) -> list[CustomerWorkItem]:
+        """Link and unlink work items in one call.
+
+        Args:
+            workspace_slug: The workspace slug identifier
+            customer_id: UUID of the customer
+            data: The work items to link or unlink. `customer_request_id`
+                attaches new links to that request.
+        """
+        response = self._post(
+            f"{workspace_slug}/customers/{customer_id}/work-items",
+            data.model_dump(exclude_none=True),
         )
         return [CustomerWorkItem.model_validate(item) for item in response]
 

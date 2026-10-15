@@ -73,6 +73,7 @@ class CreateCustomer(BaseModel):
     revenue: str | None = None
     external_source: str | None = None
     external_id: str | None = None
+    project_ids: list[str] | None = None
     created_by: str | None = None
     updated_by: str | None = None
     logo_asset: str | None = None
@@ -97,6 +98,7 @@ class UpdateCustomer(BaseModel):
     revenue: str | None = None
     external_source: str | None = None
     external_id: str | None = None
+    project_ids: list[str] | None = None
     created_by: str | None = None
     updated_by: str | None = None
     logo_asset: str | None = None
@@ -351,6 +353,9 @@ class CreateCustomerRequest(BaseModel):
     description: Any | None = None
     description_html: str | None = None
     link: str | None = None
+    priority: str | None = None
+    request_type: str | None = None
+    project_id: str | None = None
     work_item_ids: list[str] | None = None
 
 
@@ -363,7 +368,80 @@ class UpdateCustomerRequest(BaseModel):
     description: Any | None = None
     description_html: str | None = None
     link: str | None = None
+    priority: str | None = None
+    request_type: str | None = None
     work_item_ids: list[str] | None = None
+
+
+class CustomerProject(BaseModel):
+    """A project linked to a customer."""
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str
+    name: str | None = None
+    identifier: str | None = None
+    intake_view: bool | None = None
+
+
+class ReplaceCustomerProjects(BaseModel):
+    """Request model for replacing the projects linked to a customer."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    project_ids: list[str]
+
+
+class ManageCustomerWorkItems(BaseModel):
+    """Request model for linking and unlinking work items in one call."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    link_ids: list[str] | None = None
+    unlink_ids: list[str] | None = None
+    customer_request_id: str | None = None
+
+
+class CustomerAccessUpdate(BaseModel):
+    """Request model for revoking, restoring, or expiring a customer portal."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    access_revoked: bool | None = None
+    access_expires_at: str | None = None
+
+
+class CustomerAttachment(BaseModel):
+    """A file attached to a customer record."""
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str
+    name: str | None = None
+    type: str | None = None
+    size: int | None = None
+    asset_url: str | None = None
+    created_at: str | None = None
+
+
+class CustomerAttachmentUpload(BaseModel):
+    """Request model for a presigned customer attachment upload."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    name: str
+    type: str
+    size: int
+
+
+class CustomerAttachmentUploadResponse(BaseModel):
+    """Presigned upload returned for a customer attachment."""
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    upload_data: Any | None = None
+    asset_id: str | None = None
+    asset_url: str | None = None
 
 
 class CustomerWorkItem(BaseModel):

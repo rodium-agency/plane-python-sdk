@@ -2,6 +2,9 @@ from collections.abc import Mapping
 from typing import Any
 
 from plane.api.base_resource import BaseResource
+from plane.api.customers.access import CustomerAccess
+from plane.api.customers.attachments import CustomerAttachments
+from plane.api.customers.projects import CustomerProjects
 from plane.api.customers.properties import CustomerProperties
 from plane.api.customers.property_values import CustomerPropertyValues
 from plane.api.customers.requests import CustomerRequests
@@ -23,6 +26,9 @@ class Customers(BaseResource):
         self.property_values = CustomerPropertyValues(config)
         self.requests = CustomerRequests(config)
         self.work_items = CustomerWorkItems(config)
+        self.projects = CustomerProjects(config)
+        self.access = CustomerAccess(config)
+        self.attachments = CustomerAttachments(config)
 
     def list(
         self, workspace_slug: str, params: Mapping[str, Any] | None = None
